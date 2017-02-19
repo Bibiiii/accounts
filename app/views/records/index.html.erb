@@ -1,7 +1,58 @@
-<h1>Records</h1>
+<h1 class="text-center">Records</h1>
 
-<%= render 'form', record: @record %>
+<!-- calculate balances -->
+<% sum = 0  %>
+<% credit = 0 %>
+<% debit = 0 %>
 
+<% @records.each do |record| %>
+
+  <% if record.amount >= 0 %>
+    <% credit += record.amount %>
+  <% else %>
+    <% debit += record.amount %>
+  <% end %>
+  <% sum += record.amount %>
+<% end %>
+
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Credit</h3>
+        </div>
+        <div class="panel-body">£ <%= credit %></div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="panel panel-danger">
+        <div class="panel-heading">
+          <h3 class="panel-title">Debit</h3>
+        </div>
+        <div class="panel-body">£ <%= debit %></div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">Balance</h3>
+        </div>
+        <div class="panel-body">£ <%= sum %></div>
+      </div>
+    </div>
+  </div>
+ </div>
+
+<!-- render form to add a new record -->
+<h3 class="text-center">Add a new record</h3>
+<div class="record-form">
+  <%= render 'form', record: @record %>
+</div>
+
+<!-- Show spending table -->
+<h3 class="text-center">Transactions</h3>
 <table class="table" id="record-table">
   <thead>
     <tr>
